@@ -78,7 +78,7 @@ Pembagian data kategorik dan numerik
 ![pembagian data num dan cat](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/pembagian%20data%20num%20dan%20cat.png)
 7 fitur numerik dan 1 fitur kategorik.
 
-Data Kategorikal
+#### Data Kategorikal
 ![exploratory kategori](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/exploratory%20kategori.png)
 Arah angin menunjukkan dominasi dari arah SE, disusul NW, cv, dan NE.
 Keterangan:
@@ -87,7 +87,7 @@ Keterangan:
 - cv = calm and variable, arah angin tidak dapat ditentukan dengan jelas karena atmosfer yang tenang. Muncul ketika terjadi peralihan arah angin.
 - NE = northeast atau timur-laut
 
-Data Numerik
+#### Data Numerik
 ![exploratory numerik](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/exploratory%20numerik.png)
 Berdasarkan fitur target 'pollution' diketahui bahwa:
 - Fitur target memiliki data terdistribusi banyak dibawah 50 µg/m3 dan mendekati 300 µg/m3.
@@ -97,10 +97,12 @@ Berdasarkan fitur target 'pollution' diketahui bahwa:
 ### Exploratory Data Analysis - Multivariet Analysis
 Konsentrasi polutan - arah angin
 ![multivariet kategori](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/multivariet%20kategori.png)
+
 Pada saat angin tenang dan mengarah ke tenggara konsentrasi PM2.5 lebih tinggi dibandingkan ketika angin menuju barat-laut maupun timur-laut.
 
-Konsentrasi polutan - data numerik
+#### Konsentrasi polutan - data numerik
 ![pairplot](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/pairplot.png)
+
 Fungsi pairplot menampilkan scatter plot untuk setiap pasangan variabel numerik untuk menunjukkan distribusi masing-masing variabel. Fungsi utama pairplot adalah untuk eksplorasi data secara visual agar kita dapat mengidentifikasi korelasi, pola, outlier, atau distribusi dari variabel-variabel yang ada.
 
 Pada gambar pairplot tersebut, kita bisa fokus pada baris pertama yang merepresentasikan hubungan variabel pollution dengan variabel lainnya. Dari baris ini, kita bisa lihat bahwa:
@@ -109,8 +111,10 @@ Pada gambar pairplot tersebut, kita bisa fokus pada baris pertama yang mereprese
 - Korelasi antara pollution dan press terlihat tidak kuat, dengan titik-titik yang menyebar luas tanpa pola linier yang jelas.
 - Hubungan terhadap wind speed, snow, dan rain terlihat berbanding terbalik. Hal ini bisa menjadi indikasi bahwa kondisi angin rendah, hujan dan salju minim bisa berkontribusi pada penumpukan polusi udara.
 
-Korelasi Antarfitur
+#### Korelasi Antarfitur
+
 ![matriks korelasi](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/matriks%20korelasi.png)
+
 Korelasi adalah ukuran statistik yang menunjukkan sejauh mana hubungan linier antara dua variabel. Nilai korelasi berkisar dari -1 hingga 1, di mana 1 menunjukkan hubungan positif sempurna, -1 menunjukkan hubungan negatif sempurna, dan 0 berarti tidak ada hubungan linier. Fungsi korelasi adalah untuk mengidentifikasi apakah dan seberapa kuat dua variabel berubah secara bersamaan.
 
 Korelasi kuat ditunjukkan antara variabel, yaitu:
@@ -122,7 +126,8 @@ Korelasi kuat ditunjukkan antara variabel, yaitu:
 
 Nilai korelasi lainnya menunjukkan korelasi lemah hingga tidak menunjukkan korelasi sama sekali.
 
-Drop Korelasi Rendah (rain, snow)
+#### Drop Korelasi Rendah (rain, snow)
+
 ![drop korelasi rendah](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/drop%20korelasi%20rendah.png)
 
 ### Encoding Fitur Kategori (Wind Direction)
@@ -130,34 +135,41 @@ Drop Korelasi Rendah (rain, snow)
 
 ### Split-Train-Test
 ![split data](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/split%20data.png)
+
 Total data sampel untuk train, yaitu 36862, sedangkan data test nya 4096. Pembagian ini didasarkan perbandingan train-test 80:20.
 
 ### Standarisasi
-Standarisasi data train
-![standarisasi data train](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20train.png)
-
-Standarisasi data test
-![standarisasi data test](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20test.png)
-
 Standarisasi data mengubah fitur-fitur dalam dataset agar memiliki rata-rata nol dan standar deviasi satu, sehingga semua fitur berada pada skala yang sama. Hal ini penting karena banyak algoritma machine learning, untuk bekerja lebih baik dan lebih cepat. Dengan standarisasi, model tidak akan bias terhadap fitur yang memiliki nilai atau rentang lebih besar, sehingga performa dan akurasi model dapat meningkat secara signifikan.
 
+#### Standarisasi data train
+
+![standarisasi data train](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20train.png)
+
+#### Standarisasi data test
+
+![standarisasi data test](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20test.png)
+
 ## Modeling
-1. Linear Regression 
+1. Linear Regression
+   
 Linear Regression adalah metode statistik dan machine learning untuk memodelkan hubungan linear antara satu atau lebih variabel input (fitur) dengan variabel output (target). Model ini mencari garis atau hyperplane terbaik yang meminimalkan jarak antara prediksi dan data sebenarnya (dengan cara meminimalkan residual/error).
 
 Pada kode tersebut, LinearRegression diimpor dari scikit-learn untuk membuat objek model regresi linear. Kemudian, model tersebut dilatih dengan data pelatihan menggunakan fit(X_train, y_train), sehingga model mempelajari pola dari data tersebut. Setelah itu, model yang sudah dilatih digunakan untuk memprediksi nilai target pada data uji X_test dengan predict(X_test), dan hasil prediksi disimpan dalam variabel pred_LR.
 
 2. XGBoost Regressor
+   
 XGBoost Regressor adalah algoritma machine learning berbasis boosting yang dirancang khusus untuk masalah regresi dengan tujuan meningkatkan akurasi prediksi melalui penggabungan banyak model pohon keputusan yang lemah secara iteratif. Algoritma ini membangun model secara bertahap dengan memperbaiki kesalahan prediksi dari model sebelumnya, sehingga menghasilkan model yang kuat dan tahan terhadap overfitting.
 
 Dalam pengolahan data, data fitur dan target terlebih dahulu dipersiapkan dan dibagi menjadi data latih dan data uji dalam numpy array. Kemudian, fungsi objective yang digunakan oleh Optuna untuk melakukan pencarian hyperparameter terbaik. Fungsi ini menerima objek trial yang bertugas memberikan nilai hyperparameter secara otomatis dalam ruang pencarian. Pemilihan hyperparameter untuk model XGBoost secara otomatis oleh Optuna. Hasilnya, max_depth=5, n_estimators=159, subsample=0.5120936470778187, colsample_bytree=0.9603657266286856 random_state=280, learning_rate=0.048452716744140, n_jobs=-1. Selanjutnya, membuat studi Optuna dengan tujuan minimasi nilai MSE, lalu menjalankan pencarian hyperparameter sebanyak 250 percobaan (trial) dengan memanggil fungsi objective yang sudah didefinisikan. Hasil digunakan untuk membuat ulang dan melatih kembali model XGBoost dengan hyperparameter terbaik yang sudah ditemukan oleh Optuna.
 
 3. Decision Tree
+   
 Decision tree adalah algoritma machine learning yang digunakan untuk klasifikasi dan regresi dengan cara membagi data secara berulang berdasarkan fitur-fitur tertentu untuk membentuk sebuah pohon keputusan. Algoritma ini bekerja dengan membuat serangkaian pertanyaan “ya” atau “tidak” yang membelah data ke dalam cabang-cabang hingga mencapai daun (node terminal) yang berisi prediksi output. Setiap percabangan dipilih berdasarkan kriteria yang memaksimalkan pemisahan data, seperti pengurangan impuritas (misalnya Gini atau Entropy untuk klasifikasi, atau variansi untuk regresi). Decision tree mudah dipahami dan diinterpretasi karena hasilnya berupa aturan keputusan yang jelas, namun bisa rentan terhadap overfitting jika pohon terlalu dalam.
 
 Kode ini menggunakan Optuna untuk melakukan tuning hyperparameter pada model Decision Tree Regressor dengan tujuan meminimalkan Mean Squared Error (MSE) pada data uji. Fungsi objective mendefinisikan ruang pencarian hyperparameter seperti kedalaman pohon (max_depth), jumlah minimum sampel untuk membagi node (min_samples_split), jumlah minimum sampel pada daun (min_samples_leaf), dan jumlah fitur yang dipakai untuk membagi node (max_features). Setelah menjalankan 100 percobaan, Optuna menemukan konfigurasi terbaik dengan max_depth 149, min_samples_split 34, min_samples_leaf 42, dan max_features menggunakan metode 'log2', yang menghasilkan MSE sebesar 4214.62. Dengan pengaturan ini, model diharapkan memberikan prediksi yang lebih akurat dan stabil pada data uji.
 
-4. K-Nearest Neighbors (KNN)
+5. K-Nearest Neighbors (KNN)
+   
 K-Nearest Neighbors (KNN) adalah algoritma machine learning sederhana yang digunakan untuk klasifikasi maupun regresi dengan cara mencari sejumlah tetangga terdekat (k) dari data baru berdasarkan jarak (misalnya Euclidean) ke data latih, lalu memprediksi output berdasarkan nilai tetangga tersebut. Proses tuning hyperparameter KNN biasanya melibatkan pemilihan nilai k terbaik yang dapat dilakukan dengan metode seperti GridSearchCV, yang secara otomatis mencoba berbagai nilai k dan menilai performa model menggunakan teknik cross-validation. Pada contoh yang diberikan, tuning menghasilkan nilai k terbaik sebesar 9, yang berarti model menggunakan 9 tetangga terdekat untuk membuat prediksi. Kelebihan KNN adalah mudah dipahami dan diimplementasikan, serta fleksibel karena tidak memerlukan asumsi distribusi data. Namun, KNN juga memiliki kekurangan seperti kinerjanya yang menurun pada data berdimensi tinggi (curse of dimensionality), serta kebutuhan komputasi yang besar saat dataset sangat besar karena harus menghitung jarak ke seluruh data latih saat prediksi.
 
 ## Evaluation
@@ -165,12 +177,19 @@ Evaluasi yang digunakan projek ini, yaitu Mean Square Error (MSE), Root Mean Squ
 
 Dalam proyek ini digunakan empat metrik evaluasi utama untuk menilai kinerja model regresi:
 - Mean Squared Error (MSE): Mengukur rata-rata kuadrat selisih antara nilai aktual dan nilai prediksi. Semakin kecil nilainya, semakin baik prediksi model.
+
 ![MSE](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/MSE.png)
+
 - Root Mean Squared Error (RMSE): Akar dari MSE, yang mengembalikan kesalahan dalam satuan yang sama dengan data asli. Cocok untuk menilai seberapa jauh prediksi model dari nilai aktual.
+  
 ![RMSE](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/RMSE.png)
+
 - Mean Absolute Error (MAE): Menghitung rata-rata selisih absolut antara nilai aktual dan prediksi. Tidak terlalu sensitif terhadap outlier, berbeda dengan MSE.
+  
 ![MAE](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/MAE.png)
+
 - R-squared (R²): Menjelaskan proporsi variansi dari target yang dapat dijelaskan oleh fitur. Nilai R² berkisar dari 0 hingga 1 (atau bisa negatif jika model buruk). Nilai mendekati 1 berarti model menjelaskan sebagian besar variasi data.
+  
 ![r square](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/r%20square.png)
 
 Setiap model dalam proyek ini dibandingkan menggunakan keempat metrik di atas. Misalnya:
@@ -182,16 +201,22 @@ Jika, misalnya, model XGBoost memiliki MSE dan RMSE yang paling rendah serta R²
 
 ### Hasil Evaluasi
 1. Nilai RMSE, MSE, MAE, R² seluruh model
+   
 ![hasil evaluasi](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/hasil%20evaluasi.png)
+
 XGBoost Regressor adalah model terbaik secara keseluruhan karena memiliki MAE, MSE, dan RMSE paling rendah. Artinya, kesalahan prediksinya paling kecil.
 R² juga bernilai tertinggi (0.3875). Model ini mampu menjelaskan ~38.8% variasi dalam data. Meskipun R² = 0.3875 tergolong rendah secara umum, XGBoost tetap menjadi model terbaik di antara yang dibandingkan karena memiliki kesalahan prediksi terendah. Ini menunjukkan bahwa model sudah menangkap sebagian pola dalam data, tetapi masih banyak variabilitas yang belum terjelaskan. Perlu eksplorasi lebih lanjut terhadap fitur tambahan, transformasi data, atau metode prediksi lain. Peningkatan peningkatkan kemampuan model dalam menangkap pola variabilitas polusi dapat dilakukan dengan menerapkan beberapa fitur tambahan yang dapat dipertimbangkan, seperti fitur waktu (jam, hari, musim), fitur lag (nilai polusi sebelumnya), serta variabel aktivitas transportasi dan industri. Fitur-fitur ini berpotensi memperkuat korelasi antara input dan output model, sehingga dapat meningkatkan nilai R² dan menurunkan error prediksi.
 
 3. Fitur yang paling berpengaruh
+   
 ![fitur berpengaruh](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/fitur%20berpengaruh.png)
+
 Berdasarkan hasil pemodelan menggunakan XGBoost Regressor untuk memprediksi konsentrasi PM2.5, fitur yang paling berpengaruh adalah arah angin dari barat laut (wnd_dir_NW), titik embun (dew), dan suhu udara (temp). Ketiga fitur ini memiliki nilai importance tertinggi, yang menunjukkan bahwa arah angin dominan dan parameter kelembapan udara berperan besar dalam pergerakan serta konsentrasi PM2.5 di atmosfer. Sementara itu, fitur seperti tekanan udara (press) dan variasi arah angin (wnd_dir_cv) memiliki pengaruh yang lebih kecil terhadap hasil prediksi, kemungkinan karena kontribusinya lebih rendah dalam menjelaskan variasi data PM2.5 secara signifikan. Temuan ini menegaskan bahwa dalam konteks lokal data tersebut, faktor meteorologi terkait arah dan kelembapan angin menjadi kunci utama dalam memodelkan polusi udara.
 
-4. Perbandingan hasil prediksi dan aktual
+6. Perbandingan hasil prediksi dan aktual
+   
 ![prediksi vs aktual](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/prediksi%20vs%20aktual.png)
+
 Hasil prediksi model XGBoost Regressor terhadap konsentrasi PM2.5 menunjukkan bahwa meskipun terdapat korelasi umum antara nilai prediksi dan nilai asli, model cenderung kurang akurat pada nilai PM2.5 yang tinggi, ditandai dengan banyaknya titik yang berada di bawah garis referensi (y = x). Ini mengindikasikan bahwa model sering melakukan underprediction saat PM2.5 berada dalam kondisi ekstrem atau tinggi, kemungkinan karena dominasi data pada rentang rendah-menengah dan minimnya representasi kasus ekstrem dalam data latih. Secara umum, model memiliki performa yang cukup baik untuk prediksi dasar, namun belum optimal untuk mendeteksi lonjakan atau kondisi kritis, sehingga masih diperlukan perbaikan seperti penambahan fitur atau penanganan data imbalance agar prediksi lebih akurat di seluruh rentang nilai.
 
 ## Referensi
