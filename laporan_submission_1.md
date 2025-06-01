@@ -200,5 +200,4 @@ Martins NR, Da Graca GC. 2018. Impact of PM2. 5 in indoor urban environments: A 
 
 Yang Q, Yuan Q, Li T, Shen H, Zhang L. 2017. The relationships between PM2. 5 and meteorological factors in China: seasonal and regional variations. *International journal of environmental research and public health*. 14(12):1-19.
 
-**---Ini adalah bagian akhir laporan---**
 
