@@ -4,7 +4,7 @@
 
 Pencemaran udara telah menjadi isu lingkungan yang muncul akibat bertambah luasnya wilayah industrial. Polutan yang dihasilkan dapat berdampak besar, terutama polutan berpartikel kecil, seperti PM2.5. Particulate Matter 2.5 (PM2.5) atau fine particles merupakan partikulat yang berukuran diameter kurang dari 2.5 µm yang sering dikaitkan dengan berbagai penyakit serius, seperti gangguan pernapasan, penyakit kardiovaskular, serta peningkatan risiko kematian dini (Martins dan Da Graca 2018). Jenis polutan ini telah mendapat perhatian intensif selama dua dekade terakhir akibat pengaruhnya terhadap kesehatan.
 
-Konsentrasi PM2.5 sangat dipengaruhi oleh kondisi meteorologis seperti suhu, kelembaban, kecepatan angin, tekanan udara, dan curah hujan (Yang *et al.* 2017). Dalam proyek ini, Pendekatan prediktif dengan model machine learning (ML) dikembangkan dengan mengintegrasikan data konsentrasi polutan PM2.5 dan iklim historis. Model ini bertujuan untuk mengidentifikasi hubungan antara variabel meteorologis dengan lonjakan PM2.5 yang sering terjadi selama periode transisi musim atau saat terjadi gangguan atmosferik. Algoritma seperti Random XGBoost, KNN, dan Decision Tree mampu menangkap pola temporal dan nonlinier dalam data lingkungan. Berikut link dataset yang digunakan https://www.kaggle.com/datasets/rupakroy/lstm-datasets-multivariate-univariate.
+Konsentrasi PM2.5 sangat dipengaruhi oleh kondisi meteorologis seperti suhu, kelembaban, kecepatan angin, tekanan udara, dan curah hujan (Yang *et al.* 2017). Dalam proyek ini, Pendekatan prediktif dengan model machine learning (ML) dikembangkan dengan mengintegrasikan data konsentrasi polutan PM2.5 dan iklim historis. Model ini bertujuan untuk mengidentifikasi hubungan antara variabel meteorologis dengan lonjakan PM2.5 yang sering terjadi selama periode transisi musim atau saat terjadi gangguan atmosferik. Algoritma seperti Random XGBoost, KNN, dan Decision Tree mampu menangkap pola temporal dan nonlinier dalam data lingkungan. Link dataset dapat diakses [disini](https://www.kaggle.com/datasets/rupakroy/lstm-datasets-multivariate-univariate).
 
 ## Business Understanding
 
@@ -49,16 +49,21 @@ Terdapat 9 fitur, yaitu:
 | ------ | ------ 
 | 43800 | 9 
 
-## Data Preparation
+| Missing Value | Data Duplikat
+| ------ | ------ 
+| 0 | 0
 
-### Menghilangkan data polutan kurang dari 7
+### Exploratory Data Analysis - Menangani Nilai Tidak Praktis Polutan dan Outliers
+
+#### Menghilangkan data polutan kurang dari 7
 ![drop data polution kurang dari 7](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/drop%20data%20polution%20kurang%20dari%207.png)
+
 Pembersihan data dengan batas nilai 7 dikarenakan niai minimum polutan di US Embassy, beijing, China berniai 7. Setelah nilai bawahnya dihilangkan sebanyak 2842 baris, jumlah baris pada dataframe yang telah dibersihkan mencapai 40958.
 
-### Pembersihan outliers
+#### Pembersihan outliers
 ![cleaning outliers](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/cleaning%20outliers.png)
 
-### Deskripsi data statistik
+#### Deskripsi data statistik
 ![statistik data](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/statistik%20data.png)
 
 Fungsi describe() menyatakan:
@@ -100,7 +105,7 @@ Konsentrasi polutan - arah angin
 
 Pada saat angin tenang dan mengarah ke tenggara konsentrasi PM2.5 lebih tinggi dibandingkan ketika angin menuju barat-laut maupun timur-laut.
 
-#### Konsentrasi polutan - data numerik
+### Konsentrasi polutan - data numerik
 ![pairplot](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/pairplot.png)
 
 Fungsi pairplot menampilkan scatter plot untuk setiap pasangan variabel numerik untuk menunjukkan distribusi masing-masing variabel. Fungsi utama pairplot adalah untuk eksplorasi data secara visual agar kita dapat mengidentifikasi korelasi, pola, outlier, atau distribusi dari variabel-variabel yang ada.
@@ -111,7 +116,7 @@ Pada gambar pairplot tersebut, kita bisa fokus pada baris pertama yang mereprese
 - Korelasi antara pollution dan press terlihat tidak kuat, dengan titik-titik yang menyebar luas tanpa pola linier yang jelas.
 - Hubungan terhadap wind speed, snow, dan rain terlihat berbanding terbalik. Hal ini bisa menjadi indikasi bahwa kondisi angin rendah, hujan dan salju minim bisa berkontribusi pada penumpukan polusi udara.
 
-#### Korelasi Antarfitur
+### Korelasi Antarfitur
 
 ![matriks korelasi](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/matriks%20korelasi.png)
 
@@ -126,7 +131,9 @@ Korelasi kuat ditunjukkan antara variabel, yaitu:
 
 Nilai korelasi lainnya menunjukkan korelasi lemah hingga tidak menunjukkan korelasi sama sekali.
 
-#### Drop Korelasi Rendah (rain, snow)
+## Data Preparation
+
+### Drop Kolom Korelasi Rendah (rain, snow)
 
 ![drop korelasi rendah](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/drop%20korelasi%20rendah.png)
 
@@ -138,14 +145,14 @@ Nilai korelasi lainnya menunjukkan korelasi lemah hingga tidak menunjukkan korel
 
 Total data sampel untuk train, yaitu 32766, sedangkan data test nya 8192. Pembagian ini didasarkan perbandingan train-test 80:20.
 
-### Standarisasi
-Standarisasi data mengubah fitur-fitur dalam dataset agar memiliki rata-rata nol dan standar deviasi satu, sehingga semua fitur berada pada skala yang sama. Hal ini penting karena banyak algoritma machine learning, untuk bekerja lebih baik dan lebih cepat. Dengan standarisasi, model tidak akan bias terhadap fitur yang memiliki nilai atau rentang lebih besar, sehingga performa dan akurasi model dapat meningkat secara signifikan.
+### Normalisasi
+Normalisasi adalah proses mengubah skala atau distribusi nilai data agar berada dalam rentang tertentu atau memiliki karakteristik statistik tertentu, tanpa mengubah informasi dasarnya. Tujuannya adalah agar data dari berbagai sumber atau skala bisa dibandingkan secara adil atau digunakan secara efektif dalam analisis atau model.
 
-#### Standarisasi data train
+#### Normalisasi data train
 
 ![standarisasi data train](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20train.png)
 
-#### Standarisasi data test
+#### Normalisasi data test
 
 ![standarisasi data test](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20test.png)
 
@@ -154,7 +161,7 @@ Standarisasi data mengubah fitur-fitur dalam dataset agar memiliki rata-rata nol
    
 Linear Regression adalah metode statistik dan machine learning untuk memodelkan hubungan linear antara satu atau lebih variabel input (fitur) dengan variabel output (target). Model ini mencari garis atau hyperplane terbaik yang meminimalkan jarak antara prediksi dan data sebenarnya (dengan cara meminimalkan residual/error).
 
-Pada kode tersebut, LinearRegression diimpor dari scikit-learn untuk membuat objek model regresi linear. Kemudian, model tersebut dilatih dengan data pelatihan menggunakan fit(X_train, y_train), sehingga model mempelajari pola dari data tersebut. Setelah itu, model yang sudah dilatih digunakan untuk memprediksi nilai target pada data uji X_test dengan predict(X_test), dan hasil prediksi disimpan dalam variabel pred_LR.
+Pada kode tersebut, LinearRegression diimpor dari scikit-learn untuk membuat objek model regresi linear dengan parameter default, yaitu fit_intercept=True, copy_X=True, n_jobs=None, dan positive=False. Kemudian, model tersebut dilatih dengan data pelatihan menggunakan fit(X_train, y_train), sehingga model mempelajari pola dari data tersebut. Setelah itu, model yang sudah dilatih digunakan untuk memprediksi nilai target pada data uji X_test dengan predict(X_test), dan hasil prediksi disimpan dalam variabel pred_LR.
 
 2. XGBoost Regressor
    
@@ -205,19 +212,24 @@ Jika, misalnya, model XGBoost memiliki MSE dan RMSE yang paling rendah serta R²
 ![hasil evaluasi](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/hasil%20evaluasi.png)
 
 XGBoost Regressor adalah model terbaik secara keseluruhan karena memiliki MAE, MSE, dan RMSE paling rendah. Artinya, kesalahan prediksinya paling kecil.
-R² juga bernilai tertinggi (0.4037). Model ini mampu menjelaskan ~40.4% variasi dalam data. Meskipun R² = 0.4037 tergolong rendah secara umum, XGBoost tetap menjadi model terbaik di antara yang dibandingkan karena memiliki kesalahan prediksi terendah. Ini menunjukkan bahwa model sudah menangkap sebagian pola dalam data, tetapi masih banyak variabilitas yang belum terjelaskan. Perlu eksplorasi lebih lanjut terhadap fitur tambahan, transformasi data, atau metode prediksi lain. Peningkatan peningkatkan kemampuan model dalam menangkap pola variabilitas polusi dapat dilakukan dengan menerapkan beberapa fitur tambahan yang dapat dipertimbangkan, seperti fitur waktu (jam, hari, musim), fitur lag (nilai polusi sebelumnya), serta variabel aktivitas transportasi dan industri. Fitur-fitur ini berpotensi memperkuat korelasi antara input dan output model, sehingga dapat meningkatkan nilai R² dan menurunkan error prediksi.
+R² juga bernilai tertinggi (0.4037). Model ini mampu menjelaskan ~40.4% variasi dalam data. Meskipun R² = 0.4037 tergolong rendah secara umum, XGBoost tetap menjadi model terbaik di antara yang dibandingkan karena memiliki kesalahan prediksi terendah. Ini menunjukkan bahwa model sudah menangkap sebagian pola dalam data, tetapi masih banyak variabilitas yang belum terjelaskan. Perlu eksplorasi lebih lanjut terhadap fitur tambahan dan transformasi data.
 
-3. Fitur yang paling berpengaruh
+2. Fitur yang paling berpengaruh
    
 ![fitur berpengaruh](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/fitur%20berpengaruh.png)
 
 Berdasarkan hasil pemodelan menggunakan XGBoost Regressor untuk memprediksi konsentrasi PM2.5, fitur yang paling berpengaruh adalah arah angin dari barat laut (wnd_dir_NW), titik embun (dew), dan arah angin dari tenggara (wnd_dir_SE). Ketiga fitur ini memiliki nilai importance tertinggi, yang menunjukkan bahwa arah angin dominan dan parameter kelembapan udara berperan besar dalam pergerakan serta konsentrasi PM2.5 di atmosfer. Sementara itu, fitur seperti tekanan udara (press) dan variasi arah angin (wnd_dir_cv) memiliki pengaruh yang lebih kecil terhadap hasil prediksi, kemungkinan karena kontribusinya lebih rendah dalam menjelaskan variasi data PM2.5 secara signifikan. Temuan ini menegaskan bahwa dalam konteks lokal data tersebut, faktor meteorologi terkait arah dan kelembapan angin menjadi kunci utama dalam memodelkan polusi udara.
 
-6. Perbandingan hasil prediksi dan aktual
+3. Perbandingan hasil prediksi dan aktual
    
 ![prediksi vs aktual](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/prediksi%20vs%20aktual.png)
 
-Hasil prediksi model XGBoost Regressor terhadap konsentrasi PM2.5 menunjukkan bahwa meskipun terdapat korelasi umum antara nilai prediksi dan nilai asli, model cenderung kurang akurat pada nilai PM2.5 yang tinggi, ditandai dengan banyaknya titik yang berada di bawah garis referensi (y = x). Ini mengindikasikan bahwa model sering melakukan underprediction saat PM2.5 berada dalam kondisi ekstrem atau tinggi, kemungkinan karena dominasi data pada rentang rendah-menengah dan minimnya representasi kasus ekstrem dalam data latih. Secara umum, model memiliki performa yang cukup baik untuk prediksi dasar, namun belum optimal untuk mendeteksi lonjakan atau kondisi kritis, sehingga masih diperlukan perbaikan seperti penambahan fitur atau penanganan data imbalance agar prediksi lebih akurat di seluruh rentang nilai.
+Hasil prediksi model XGBoost Regressor terhadap konsentrasi PM2.5 menunjukkan bahwa meskipun terdapat korelasi umum antara nilai prediksi dan nilai asli, model cenderung kurang akurat pada nilai PM2.5 yang tinggi, ditandai dengan banyaknya titik yang berada di bawah garis referensi (y = x). Ini mengindikasikan bahwa model sering melakukan underprediction saat PM2.5 berada dalam kondisi ekstrem atau tinggi, kemungkinan karena dominasi data pada rentang rendah-menengah dan minimnya representasi kasus ekstrem dalam data latih..
+
+## Kesimpulan
+1. Analisis fitur importance model XGBoost Regressor diketahui bahwa arah angin dari barat laut (wnd_dir_NW), titik embun (dew), dan arah angin dari tenggara (wnd_dir_SE) adalah faktor meteorologi yang paling berpengaruh terhadap konsentrasi PM2.5. Hal ini menunjukkan bahwa pola angin dominan dan kelembapan udara memiliki peran penting dalam mengendalikan pergerakan dan akumulasi polutan di atmosfer. Pengetahuan ini dapat menjadi dasar bagi pengambil kebijakan dalam menyusun strategi mitigasi yang lebih tepat sasaran, misalnya dengan mengintegrasikan informasi arah angin ke dalam sistem peringatan dini polusi udara.
+
+2. Model XGBoost Regressor juga berhasil memberikan prediksi nilai PM2.5 berdasarkan data meteorologi dan menunjukkan performa terbaik dibandingkan model lain. Nilai evaluasi yang dicapai adalah MAE, MSE, dan RMSE terendah, serta nilai R² sebesar 0.4037, yang berarti model mampu menjelaskan sekitar 40,4% variasi dalam data. Perbandingan antara nilai aktual dan prediksi menunjukkan bahwa model cukup akurat untuk nilai PM2.5 dalam rentang rendah-menengah, tetapi cenderung _underpredict_ pada nilai ekstrem. Ini menunjukkan bahwa model belum optimal untuk mendeteksi lonjakan polusi secara presisi, namun bisa menangkap pola umum. Perbaikan dapat dilakukan dengan menambahkan fitur diluar faktor meteorologi, seperti waktu (jam, musim), lag data, dan variabel aktivitas manusia (industri dan transportasi) agar model mampu menangkap dinamika yang lebih kompleks.
 
 ## Referensi
 
