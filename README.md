@@ -85,6 +85,7 @@ Pembagian data kategorik dan numerik
 
 #### Data Kategorikal
 ![exploratory kategori](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/exploratory%20kategori.png)
+
 Arah angin menunjukkan dominasi dari arah SE, disusul NW, cv, dan NE.
 Keterangan:
 - SE = southeast atau tenggara
@@ -150,11 +151,11 @@ Normalisasi adalah proses mengubah skala atau distribusi nilai data agar berada 
 
 #### Normalisasi data train
 
-![standarisasi data train](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20train.png)
+![Normalisasi data train](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20train.png)
 
 #### Normalisasi data test
 
-![standarisasi data test](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20test.png)
+![Normalisasi data test](https://github.com/fadhilahhafidzh/pm2.5-model/blob/main/Gambar/standarisasi%20data%20test.png)
 
 ## Modeling
 1. Linear Regression
